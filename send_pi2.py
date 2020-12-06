@@ -6,7 +6,7 @@ import cv2
 import imutils
 
 
-sender = imagezmq.ImageSender(connect_to="tcp://192.168.1.108:5555")
+sender = imagezmq.ImageSender(connect_to="tcp://192.168.1.18:5555")
 rpiName2 = socket.gethostname()
 #vs = VideoStream(src=0).start()
 vs = cv2.VideoCapture("data.mp4")
