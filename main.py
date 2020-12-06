@@ -11,25 +11,25 @@ import threading
 from threading import Thread
 from gooey import Gooey, GooeyParser
 
-# @Gooey(
-#     program_name="Managemen Lampu Lalu Lintas",
-#     program_description="Pengaturan Lampu Lalu Lintas Berbasis Pengolahan Citra Digital dan Kecerdasan Buatan",
-#     image_dir = "C:/Users/achma/Documents/traffic_management",
-#     menu=[{'name': 'File', 'items': [{
-#         'type': 'AboutDialog',
-#         'menuTitle': 'About',
-#         'name': 'Managemen Pengaturan Lampu Lalu Lintas',
-#         'description': 'Pengaturan Lampu Lalu Lintas Berbasis Pengolahan Citra Digital dan Kecerdasan Buatan',
-#         'version': '1.0.0',
-#         'copyright': '2020',
-#         'website': 'https://github.com/habibiysuf/traffic_management',
-#         'developer': "Maulana Yusuf, Rahadiyan Yusuf, Ary Setijadi, Reza Darmakusuma",
-#         'license': 'TMDG ITB' }]
-#         }]
+@Gooey(
+    program_name="Managemen Lampu Lalu Lintas",
+    program_description="Pengaturan Lampu Lalu Lintas Berbasis Pengolahan Citra Digital dan Kecerdasan Buatan",
+    image_dir = "C:/Users/achma/Documents/traffic_management",
+    menu=[{'name': 'File', 'items': [{
+        'type': 'AboutDialog',
+        'menuTitle': 'About',
+        'name': 'Managemen Pengaturan Lampu Lalu Lintas',
+        'description': 'Pengaturan Lampu Lalu Lintas Berbasis Pengolahan Citra Digital dan Kecerdasan Buatan',
+        'version': '1.0.0',
+        'copyright': '2020',
+        'website': 'https://github.com/habibiysuf/traffic_management',
+        'developer': "Maulana Yusuf, Rahadiyan Yusuf, Ary Setijadi, Reza Darmakusuma",
+        'license': 'TMDG ITB' }]
+        }]
     
-# )
+)
 def main():
-    # parser = GooeyParser(description="Pengaturan Parameter Sistem")
+    parser = GooeyParser(description="Pengaturan Parameter Sistem")
     # control_params.add_argument(
     #     "-p",
     #     "--prototxt", 
@@ -47,25 +47,25 @@ def main():
     #     widget="FileChooser",
     #     gooey_options=dict(wildcard="Model file (*.model)|*.model")
     # )
-    parser = argparse.ArgumentParser()
+    #ap = argparse.ArgumentParser()
     parser.add_argument("-p", "--prototxt", required=True,
-        help="Caffe 'deploy' prototxt file")
+        help="Caffe 'deploy' prototxt file", widget='FileChooser')
     parser.add_argument("-m", "--model", required=True,
-        help="Caffe pre-trained model")
+        help="Caffe pre-trained model", widget='FileChooser')
     parser.add_argument("-c", "--confidence", type=float, default=0.2,
         help="Probabilitas deteksi (0 -1)")
-    parser.add_argument("-mW", "--montageW", type=int,
-        help="Layar monitor horizontal. Ex. 2 Layar", default = 2)
-    parser.add_argument("-mH", "--montageH", type=int,
-        help="Layar monitor vertikal. Ex. 2 Layar ", default = 2)
+    parser.add_argument("-mW", "--montageW", required=True, type=int,
+        help="Layar monitor horizontal. Ex. 2 Layar")
+    parser.add_argument("-mH", "--montageH", required=True, type=int,
+        help="Layar monitor vertikal. Ex. 2 Layar ")
     parser.add_argument("-mig", "--min_green", help="Minimal waktu hijau", type=int, default=5)
     parser.add_argument("-mag", "--max_green", help="Maksimal waktu hijau",type=int, default=12)
     parser.add_argument("-macd", "--max_car_detected", help = "Maksimal Kendaraan Terdeteksi (mobil)", type=int, default=10 )
     parser.add_argument("-micd", "--min_car_detected",help = "Minimal Kendaraan Terdeteksi (mobil)", type=int, default=1)
-    parser.add_argument("-sc1", "--node_1", help = "Nama host node pertama", default = "coba0")
-    parser.add_argument("-sc2", "--node_2", help = "Nama host node kedua", default="coba")
-    parser.add_argument("-sc3", "--node_3", help = "Nama host node ketiga", default = "coba2")
-    parser.add_argument("-sc4", "--node_4", help = "Nama host node keempat", default = "coba3")
+    parser.add_argument("-sc1", "--node_1", help = "Nama host node pertama", required=True)
+    parser.add_argument("-sc2", "--node_2", help = "Nama host node kedua", required=True)
+    parser.add_argument("-sc3", "--node_3", help = "Nama host node ketiga", required=True)
+    parser.add_argument("-sc4", "--node_4", help = "Nama host node keempat", required=True)
     args = vars(parser.parse_args())
 
     max_car_detect = args["max_car_detected"]
@@ -110,8 +110,7 @@ def main():
     state_1 = True
     devices = []
 
-    print("Program starting.......")
-
+    print("Memulai Program .......")
     while True:
     
         (rpiName, frame) = imageHub.recv_image()
